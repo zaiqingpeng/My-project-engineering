@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.questions.mapper.TruefalseQuestionsMapper">
+
+    <resultMap type="TruefalseQuestions" id="TruefalseQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="question"    column="question"    />
+        <result property="answer"    column="answer"    />
+        <result property="tfLevel"    column="tf_level"    />
+    </resultMap>
+
+    <sql id="selectTruefalseQuestionsVo">
+        select id, question, answer, tf_level from truefalse_questions
+    </sql>
+
+    <select id="selectTruefalseQuestionsList" parameterType="TruefalseQuestions" resultMap="TruefalseQuestionsResult">
+        <include refid="selectTruefalseQuestionsVo"/>
+        <where>
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="tfLevel != null  and tfLevel != ''"> and tf_level = #{tfLevel}</if>
+        </where>
+    </select>
+
+    <select id="selectTruefalseQuestionsById" parameterType="Long" resultMap="TruefalseQuestionsResult">
+        <include refid="selectTruefalseQuestionsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTruefalseQuestions" parameterType="TruefalseQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into truefalse_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="question != null">question,</if>
+            <if test="answer != null">answer,</if>
+            <if test="tfLevel != null">tf_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="question != null">#{question},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="tfLevel != null">#{tfLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTruefalseQuestions" parameterType="TruefalseQuestions">
+        update truefalse_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="question != null">question = #{question},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="tfLevel != null">tf_level = #{tfLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTruefalseQuestionsById" parameterType="Long">
+        delete from truefalse_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteTruefalseQuestionsByIds" parameterType="String">
+        delete from truefalse_questions where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

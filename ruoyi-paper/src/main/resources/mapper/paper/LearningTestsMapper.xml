@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.paper.mapper.LearningTestsMapper">
+
+    <resultMap type="LearningTests" id="LearningTestsResult">
+        <result property="id"    column="id"    />
+        <result property="questionsType"    column="questions_type"    />
+        <result property="questions"    column="questions"    />
+        <result property="optionA"    column="Option_A"    />
+        <result property="optionB"    column="Option_B"    />
+        <result property="optionC"    column="Option_C"    />
+        <result property="optionD"    column="Option_D"    />
+        <result property="answer"    column="answer"    />
+        <result property="questionsLevel"    column="questions_level"    />
+        <result property="perScore"    column="per_score"    />
+    </resultMap>
+
+    <sql id="selectLearningTestsVo">
+        select id, questions_type, questions, Option_A, Option_B, Option_C, Option_D, answer, questions_level, per_score from learning_tests
+    </sql>
+
+    <select id="selectLearningTestsList" parameterType="LearningTests" resultMap="LearningTestsResult">
+        <include refid="selectLearningTestsVo"/>
+        <where>
+            <if test="questionsType != null  and questionsType != ''"> and questions_type = #{questionsType}</if>
+            <if test="questions != null  and questions != ''"> and questions = #{questions}</if>
+            <if test="optionA != null  and optionA != ''"> and Option_A = #{optionA}</if>
+            <if test="optionB != null  and optionB != ''"> and Option_B = #{optionB}</if>
+            <if test="optionC != null  and optionC != ''"> and Option_C = #{optionC}</if>
+            <if test="optionD != null  and optionD != ''"> and Option_D = #{optionD}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="questionsLevel != null  and questionsLevel != ''"> and questions_level = #{questionsLevel}</if>
+            <if test="perScore != null "> and per_score = #{perScore}</if>
+        </where>
+    </select>
+
+<!--新增查询数据库所有数据-->
+    <select id="LearningTestsList" resultMap="LearningTestsResult">
+        <include refid="selectLearningTestsVo"/>
+        <where>
+            <if test="questionsType != null  and questionsType != ''"> and questions_type = #{questionsType}</if>
+            <if test="questions != null  and questions != ''"> and questions = #{questions}</if>
+            <if test="optionA != null  and optionA != ''"> and Option_A = #{optionA}</if>
+            <if test="optionB != null  and optionB != ''"> and Option_B = #{optionB}</if>
+            <if test="optionC != null  and optionC != ''"> and Option_C = #{optionC}</if>
+            <if test="optionD != null  and optionD != ''"> and Option_D = #{optionD}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="questionsLevel != null  and questionsLevel != ''"> and questions_level = #{questionsLevel}</if>
+            <if test="perScore != null "> and per_score = #{perScore}</if>
+        </where>
+    </select>
+
+    <select id="selectLearningTestsById" parameterType="Integer" resultMap="LearningTestsResult">
+        <include refid="selectLearningTestsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLearningTests" parameterType="LearningTests" useGeneratedKeys="true" keyProperty="id">
+        insert into learning_tests
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionsType != null">questions_type,</if>
+            <if test="questions != null">questions,</if>
+            <if test="optionA != null">Option_A,</if>
+            <if test="optionB != null">Option_B,</if>
+            <if test="optionC != null">Option_C,</if>
+            <if test="optionD != null">Option_D,</if>
+            <if test="answer != null">answer,</if>
+            <if test="questionsLevel != null">questions_level,</if>
+            <if test="perScore != null">per_score,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionsType != null">#{questionsType},</if>
+            <if test="questions != null">#{questions},</if>
+            <if test="optionA != null">#{optionA},</if>
+            <if test="optionB != null">#{optionB},</if>
+            <if test="optionC != null">#{optionC},</if>
+            <if test="optionD != null">#{optionD},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="questionsLevel != null">#{questionsLevel},</if>
+            <if test="perScore != null">#{perScore},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLearningTests" parameterType="LearningTests">
+        update learning_tests
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="questionsType != null">questions_type = #{questionsType},</if>
+            <if test="questions != null">questions = #{questions},</if>
+            <if test="optionA != null">Option_A = #{optionA},</if>
+            <if test="optionB != null">Option_B = #{optionB},</if>
+            <if test="optionC != null">Option_C = #{optionC},</if>
+            <if test="optionD != null">Option_D = #{optionD},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="questionsLevel != null">questions_level = #{questionsLevel},</if>
+            <if test="perScore != null">per_score = #{perScore},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLearningTestsById" parameterType="Integer">
+        delete from learning_tests where id = #{id}
+    </delete>
+
+    <delete id="deleteLearningTestsByIds" parameterType="String">
+        delete from learning_tests where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

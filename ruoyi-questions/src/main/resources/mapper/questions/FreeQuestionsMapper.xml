@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.questions.mapper.FreeQuestionsMapper">
+    
+    <resultMap type="FreeQuestions" id="FreeQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="question"    column="question"    />
+        <result property="answer"    column="answer"    />
+        <result property="questionDescribe"    column="question_describe"    />
+        <result property="keyword1"    column="keyword_1"    />
+        <result property="keyword2"    column="keyword_2"    />
+        <result property="keyword3"    column="keyword_3"    />
+        <result property="keyword4"    column="keyword_4"    />
+        <result property="keyword5"    column="keyword_5"    />
+        <result property="questionLevel"    column="question_level"    />
+    </resultMap>
+
+    <sql id="selectFreeQuestionsVo">
+        select id, question, answer, question_describe, keyword_1, keyword_2, keyword_3, keyword_4, keyword_5, question_level from free_questions
+    </sql>
+
+    <select id="selectFreeQuestionsList" parameterType="FreeQuestions" resultMap="FreeQuestionsResult">
+        <include refid="selectFreeQuestionsVo"/>
+        <where>  
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="questionDescribe != null  and questionDescribe != ''"> and question_describe = #{questionDescribe}</if>
+            <if test="keyword1 != null  and keyword1 != ''"> and keyword_1 = #{keyword1}</if>
+            <if test="keyword2 != null  and keyword2 != ''"> and keyword_2 = #{keyword2}</if>
+            <if test="keyword3 != null  and keyword3 != ''"> and keyword_3 = #{keyword3}</if>
+            <if test="keyword4 != null  and keyword4 != ''"> and keyword_4 = #{keyword4}</if>
+            <if test="keyword5 != null  and keyword5 != ''"> and keyword_5 = #{keyword5}</if>
+            <if test="questionLevel != null "> and question_level = #{questionLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectFreeQuestionsById" parameterType="Long" resultMap="FreeQuestionsResult">
+        <include refid="selectFreeQuestionsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFreeQuestions" parameterType="FreeQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into free_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="question != null">question,</if>
+            <if test="answer != null">answer,</if>
+            <if test="questionDescribe != null">question_describe,</if>
+            <if test="keyword1 != null">keyword_1,</if>
+            <if test="keyword2 != null">keyword_2,</if>
+            <if test="keyword3 != null">keyword_3,</if>
+            <if test="keyword4 != null">keyword_4,</if>
+            <if test="keyword5 != null">keyword_5,</if>
+            <if test="questionLevel != null">question_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="question != null">#{question},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="questionDescribe != null">#{questionDescribe},</if>
+            <if test="keyword1 != null">#{keyword1},</if>
+            <if test="keyword2 != null">#{keyword2},</if>
+            <if test="keyword3 != null">#{keyword3},</if>
+            <if test="keyword4 != null">#{keyword4},</if>
+            <if test="keyword5 != null">#{keyword5},</if>
+            <if test="questionLevel != null">#{questionLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFreeQuestions" parameterType="FreeQuestions">
+        update free_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="question != null">question = #{question},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="questionDescribe != null">question_describe = #{questionDescribe},</if>
+            <if test="keyword1 != null">keyword_1 = #{keyword1},</if>
+            <if test="keyword2 != null">keyword_2 = #{keyword2},</if>
+            <if test="keyword3 != null">keyword_3 = #{keyword3},</if>
+            <if test="keyword4 != null">keyword_4 = #{keyword4},</if>
+            <if test="keyword5 != null">keyword_5 = #{keyword5},</if>
+            <if test="questionLevel != null">question_level = #{questionLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFreeQuestionsById" parameterType="Long">
+        delete from free_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteFreeQuestionsByIds" parameterType="String">
+        delete from free_questions where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

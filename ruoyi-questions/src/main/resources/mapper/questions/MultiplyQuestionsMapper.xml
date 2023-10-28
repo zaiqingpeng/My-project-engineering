@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.questions.mapper.MultiplyQuestionsMapper">
+
+    <resultMap type="MultiplyQuestions" id="MultiplyQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="question"    column="question"    />
+        <result property="questionA"    column="question_A"    />
+        <result property="questionB"    column="question_B"    />
+        <result property="questionC"    column="question_C"    />
+        <result property="questionD"    column="question_D"    />
+        <result property="mulAnswer"    column="mul_answer"    />
+        <result property="questionLevel"    column="question_level"    />
+    </resultMap>
+
+    <sql id="selectMultiplyQuestionsVo">
+        select id, question, question_A, question_B, question_C, question_D, mul_answer, question_level from multiply_questions
+    </sql>
+
+    <select id="selectMultiplyQuestionsList" parameterType="MultiplyQuestions" resultMap="MultiplyQuestionsResult">
+        <include refid="selectMultiplyQuestionsVo"/>
+        <where>
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="mulAnswer != null  and mulAnswer != ''"> and mul_answer = #{mulAnswer}</if>
+            <if test="questionLevel != null  and questionLevel != ''"> and question_level = #{questionLevel}</if>
+        </where>
+    </select>
+
+    <select id="selectMultiplyQuestionsById" parameterType="Integer" resultMap="MultiplyQuestionsResult">
+        <include refid="selectMultiplyQuestionsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMultiplyQuestions" parameterType="MultiplyQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into multiply_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="question != null">question,</if>
+            <if test="questionA != null">question_A,</if>
+            <if test="questionB != null">question_B,</if>
+            <if test="questionC != null">question_C,</if>
+            <if test="questionD != null">question_D,</if>
+            <if test="mulAnswer != null">mul_answer,</if>
+            <if test="questionLevel != null">question_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="question != null">#{question},</if>
+            <if test="questionA != null">#{questionA},</if>
+            <if test="questionB != null">#{questionB},</if>
+            <if test="questionC != null">#{questionC},</if>
+            <if test="questionD != null">#{questionD},</if>
+            <if test="mulAnswer != null">#{mulAnswer},</if>
+            <if test="questionLevel != null">#{questionLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMultiplyQuestions" parameterType="MultiplyQuestions">
+        update multiply_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="question != null">question = #{question},</if>
+            <if test="questionA != null">question_A = #{questionA},</if>
+            <if test="questionB != null">question_B = #{questionB},</if>
+            <if test="questionC != null">question_C = #{questionC},</if>
+            <if test="questionD != null">question_D = #{questionD},</if>
+            <if test="mulAnswer != null">mul_answer = #{mulAnswer},</if>
+            <if test="questionLevel != null">question_level = #{questionLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMultiplyQuestionsById" parameterType="Integer">
+        delete from multiply_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteMultiplyQuestionsByIds" parameterType="String">
+        delete from multiply_questions where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

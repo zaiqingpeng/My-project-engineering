@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.contents.mapper.StudyingContentsMapper">
+    
+    <resultMap type="StudyingContents" id="StudyingContentsResult">
+        <result property="id"    column="id"    />
+        <result property="contentType"    column="content_type"    />
+        <result property="contentText"    column="content_text"    />
+        <result property="contentPictureVideo"    column="content_picture_video"    />
+        <result property="contentFile"    column="content_file"    />
+        <result property="contentManager"    column="content_manager"    />
+        <result property="contentTime"    column="content_time"    />
+    </resultMap>
+
+    <sql id="selectStudyingContentsVo">
+        select id, content_type, content_text, content_picture_video, content_file, content_manager, content_time from studying_contents
+    </sql>
+
+    <select id="selectStudyingContentsList" parameterType="StudyingContents" resultMap="StudyingContentsResult">
+        <include refid="selectStudyingContentsVo"/>
+        <where>  
+            <if test="contentType != null  and contentType != ''"> and content_type = #{contentType}</if>
+            <if test="contentText != null  and contentText != ''"> and content_text = #{contentText}</if>
+            <if test="contentPictureVideo != null  and contentPictureVideo != ''"> and content_picture_video = #{contentPictureVideo}</if>
+            <if test="contentFile != null  and contentFile != ''"> and content_file = #{contentFile}</if>
+            <if test="contentManager != null  and contentManager != ''"> and content_manager = #{contentManager}</if>
+            <if test="contentTime != null "> and content_time = #{contentTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectStudyingContentsById" parameterType="Long" resultMap="StudyingContentsResult">
+        <include refid="selectStudyingContentsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStudyingContents" parameterType="StudyingContents" useGeneratedKeys="true" keyProperty="id">
+        insert into studying_contents
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contentType != null">content_type,</if>
+            <if test="contentText != null">content_text,</if>
+            <if test="contentPictureVideo != null">content_picture_video,</if>
+            <if test="contentFile != null">content_file,</if>
+            <if test="contentManager != null">content_manager,</if>
+            <if test="contentTime != null">content_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contentType != null">#{contentType},</if>
+            <if test="contentText != null">#{contentText},</if>
+            <if test="contentPictureVideo != null">#{contentPictureVideo},</if>
+            <if test="contentFile != null">#{contentFile},</if>
+            <if test="contentManager != null">#{contentManager},</if>
+            <if test="contentTime != null">#{contentTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudyingContents" parameterType="StudyingContents">
+        update studying_contents
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contentType != null">content_type = #{contentType},</if>
+            <if test="contentText != null">content_text = #{contentText},</if>
+            <if test="contentPictureVideo != null">content_picture_video = #{contentPictureVideo},</if>
+            <if test="contentFile != null">content_file = #{contentFile},</if>
+            <if test="contentManager != null">content_manager = #{contentManager},</if>
+            <if test="contentTime != null">content_time = #{contentTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudyingContentsById" parameterType="Long">
+        delete from studying_contents where id = #{id}
+    </delete>
+
+    <delete id="deleteStudyingContentsByIds" parameterType="String">
+        delete from studying_contents where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

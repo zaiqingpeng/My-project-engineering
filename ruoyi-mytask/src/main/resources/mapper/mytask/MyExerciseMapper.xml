@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mytask.mapper.MyExerciseMapper">
+    
+    <resultMap type="MyExercise" id="MyExerciseResult">
+        <result property="id"    column="id"    />
+        <result property="question"    column="question"    />
+        <result property="optionA"    column="option_A"    />
+        <result property="optionB"    column="option_B"    />
+        <result property="optionC"    column="option_C"    />
+        <result property="optionD"    column="option_D"    />
+        <result property="answer"    column="answer"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectMyExerciseVo">
+        select id, question, option_A, option_B, option_C, option_D, answer, description from my_exercise
+    </sql>
+
+    <select id="selectMyExerciseList" parameterType="MyExercise" resultMap="MyExerciseResult">
+        <include refid="selectMyExerciseVo"/>
+        <where>  
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="optionA != null  and optionA != ''"> and option_A = #{optionA}</if>
+            <if test="optionB != null  and optionB != ''"> and option_B = #{optionB}</if>
+            <if test="optionC != null  and optionC != ''"> and option_C = #{optionC}</if>
+            <if test="optionD != null  and optionD != ''"> and option_D = #{optionD}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyExerciseById" parameterType="Long" resultMap="MyExerciseResult">
+        <include refid="selectMyExerciseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMyExercise" parameterType="MyExercise" useGeneratedKeys="true" keyProperty="id">
+        insert into my_exercise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="question != null">question,</if>
+            <if test="optionA != null">option_A,</if>
+            <if test="optionB != null">option_B,</if>
+            <if test="optionC != null">option_C,</if>
+            <if test="optionD != null">option_D,</if>
+            <if test="answer != null">answer,</if>
+            <if test="description != null">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="question != null">#{question},</if>
+            <if test="optionA != null">#{optionA},</if>
+            <if test="optionB != null">#{optionB},</if>
+            <if test="optionC != null">#{optionC},</if>
+            <if test="optionD != null">#{optionD},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="description != null">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyExercise" parameterType="MyExercise">
+        update my_exercise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="question != null">question = #{question},</if>
+            <if test="optionA != null">option_A = #{optionA},</if>
+            <if test="optionB != null">option_B = #{optionB},</if>
+            <if test="optionC != null">option_C = #{optionC},</if>
+            <if test="optionD != null">option_D = #{optionD},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="description != null">description = #{description},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMyExerciseById" parameterType="Long">
+        delete from my_exercise where id = #{id}
+    </delete>
+
+    <delete id="deleteMyExerciseByIds" parameterType="String">
+        delete from my_exercise where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

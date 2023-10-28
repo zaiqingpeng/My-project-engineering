@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.contents.mapper.MainContentMapper">
+
+    <resultMap type="MainContent" id="MainContentResult">
+        <result property="id"    column="id"    />
+        <result property="contentType"    column="content_type"    />
+        <result property="textContent"    column="text_content"    />
+        <result property="fileContent"    column="file_content"    />
+        <result property="pictureContent"    column="picture_content"    />
+        <result property="allContent"    column="all_content"    />
+        <result property="techer"    column="techer"    />
+    </resultMap>
+
+    <sql id="selectMainContentVo">
+        select id, content_type, text_content, file_content, picture_content, all_content, techer from main_content
+    </sql>
+
+    <select id="selectMainContentList" parameterType="MainContent" resultMap="MainContentResult">
+        <include refid="selectMainContentVo"/>
+        <where>
+            <if test="contentType != null  and contentType != ''"> and content_type = #{contentType}</if>
+            <if test="textContent != null  and textContent != ''"> and text_content = #{textContent}</if>
+            <if test="fileContent != null  and fileContent != ''"> and file_content = #{fileContent}</if>
+            <if test="pictureContent != null  and pictureContent != ''"> and picture_content = #{pictureContent}</if>
+            <if test="allContent != null  and allContent != ''"> and all_content = #{allContent}</if>
+            <if test="techer != null  and techer != ''"> and techer = #{techer}</if>
+        </where>
+    </select>
+
+    <select id="selectMainContentById" parameterType="Integer" resultMap="MainContentResult">
+        <include refid="selectMainContentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMainContent" parameterType="MainContent" useGeneratedKeys="true" keyProperty="id">
+        insert into main_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contentType != null">content_type,</if>
+            <if test="textContent != null">text_content,</if>
+            <if test="fileContent != null">file_content,</if>
+            <if test="pictureContent != null">picture_content,</if>
+            <if test="allContent != null">all_content,</if>
+            <if test="techer != null">techer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contentType != null">#{contentType},</if>
+            <if test="textContent != null">#{textContent},</if>
+            <if test="fileContent != null">#{fileContent},</if>
+            <if test="pictureContent != null">#{pictureContent},</if>
+            <if test="allContent != null">#{allContent},</if>
+            <if test="techer != null">#{techer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMainContent" parameterType="MainContent">
+        update main_content
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contentType != null">content_type = #{contentType},</if>
+            <if test="textContent != null">text_content = #{textContent},</if>
+            <if test="fileContent != null">file_content = #{fileContent},</if>
+            <if test="pictureContent != null">picture_content = #{pictureContent},</if>
+            <if test="allContent != null">all_content = #{allContent},</if>
+            <if test="techer != null">techer = #{techer},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMainContentById" parameterType="Integer">
+        delete from main_content where id = #{id}
+    </delete>
+
+    <delete id="deleteMainContentByIds" parameterType="String">
+        delete from main_content where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

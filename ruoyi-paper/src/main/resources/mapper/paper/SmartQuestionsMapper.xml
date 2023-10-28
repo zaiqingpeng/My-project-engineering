@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.paper.mapper.SmartQuestionsMapper">
+
+    <resultMap type="SmartQuestions" id="SmartQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="questionType"    column="question_type"    />
+        <result property="question"    column="question"    />
+        <result property="optionA"    column="optionA"    />
+        <result property="optionB"    column="optionB"    />
+        <result property="optionC"    column="optionC"    />
+        <result property="optionD"    column="optionD"    />
+        <result property="answer"    column="answer"    />
+        <result property="perScore"    column="per_score"    />
+        <result property="questionLevel"    column="question_level"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+
+    <sql id="selectSmartQuestionsVo">
+        select id, question_type, question, optionA, optionB, optionC, optionD, answer, per_score, question_level, begin_time, end_time from smart_questions
+    </sql>
+
+    <select id="selectSmartQuestionsList" parameterType="SmartQuestions" resultMap="SmartQuestionsResult">
+        <include refid="selectSmartQuestionsVo"/>
+        <where>
+            <if test="questionType != null  and questionType != ''"> and question_type = #{questionType}</if>
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="optionA != null  and optionA != ''"> and optionA = #{optionA}</if>
+            <if test="optionB != null  and optionB != ''"> and optionB = #{optionB}</if>
+            <if test="optionC != null  and optionC != ''"> and optionC = #{optionC}</if>
+            <if test="optionD != null  and optionD != ''"> and optionD = #{optionD}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="perScore != null  and perScore != ''"> and per_score = #{perScore}</if>
+            <if test="questionLevel != null  and questionLevel != ''"> and question_level = #{questionLevel}</if>
+            <if test="beginTime != null  and beginTime != ''"> and begin_time = #{beginTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+        </where>
+    </select>
+
+    <select id="selectSmartQuestionsById" parameterType="Long" resultMap="SmartQuestionsResult">
+        <include refid="selectSmartQuestionsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSmartQuestions" parameterType="SmartQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into smart_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="questionType != null">question_type,</if>
+            <if test="question != null">question,</if>
+            <if test="optionA != null">optionA,</if>
+            <if test="optionB != null">optionB,</if>
+            <if test="optionC != null">optionC,</if>
+            <if test="optionD != null">optionD,</if>
+            <if test="answer != null">answer,</if>
+            <if test="perScore != null">per_score,</if>
+            <if test="questionLevel != null">question_level,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="endTime != null">end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="questionType != null">#{questionType},</if>
+            <if test="question != null">#{question},</if>
+            <if test="optionA != null">#{optionA},</if>
+            <if test="optionB != null">#{optionB},</if>
+            <if test="optionC != null">#{optionC},</if>
+            <if test="optionD != null">#{optionD},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="perScore != null">#{perScore},</if>
+            <if test="questionLevel != null">#{questionLevel},</if>
+            <if test="beginTime != null">#{beginTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSmartQuestions" parameterType="SmartQuestions">
+        update smart_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="questionType != null">question_type = #{questionType},</if>
+            <if test="question != null">question = #{question},</if>
+            <if test="optionA != null">optionA = #{optionA},</if>
+            <if test="optionB != null">optionB = #{optionB},</if>
+            <if test="optionC != null">optionC = #{optionC},</if>
+            <if test="optionD != null">optionD = #{optionD},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="perScore != null">per_score = #{perScore},</if>
+            <if test="questionLevel != null">question_level = #{questionLevel},</if>
+            <if test="beginTime != null">begin_time = #{beginTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSmartQuestionsById" parameterType="Long">
+        delete from smart_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteSmartQuestionsByIds" parameterType="String">
+        delete from smart_questions where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

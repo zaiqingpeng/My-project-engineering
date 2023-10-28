@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.paper.mapper.HardControllerMapper">
+
+    <resultMap type="HardController" id="HardControllerResult">
+        <result property="id"    column="id"    />
+        <result property="hardName"    column="hard_name"    />
+        <result property="singleCount"    column="singleCount"    />
+        <result property="multiplyCount"    column="multiplyCount"    />
+        <result property="tfCount"    column="tfCount"    />
+        <result property="sSimple"    column="sSimple"    />
+        <result property="sAverage"    column="sAverage"    />
+        <result property="sHarder"    column="sHarder"    />
+        <result property="mSimple"    column="mSimple"    />
+        <result property="mAverage"    column="mAverage"    />
+        <result property="mHarder"    column="mHarder"    />
+        <result property="tSimple"    column="tSimple"    />
+        <result property="tAverage"    column="tAverage"    />
+        <result property="tHarder"    column="tHarder"    />
+    </resultMap>
+
+    <sql id="selectHardControllerVo">
+        select id, hard_name, singleCount, multiplyCount, tfCount, sSimple, sAverage, sHarder, mSimple, mAverage, mHarder, tSimple, tAverage, tHarder from hard_controller
+    </sql>
+
+    <select id="selectHardControllerList" parameterType="HardController" resultMap="HardControllerResult">
+        <include refid="selectHardControllerVo"/>
+        <where>
+            <if test="hardName != null  and hardName != ''"> and hard_name = #{hardName}</if>
+            <if test="singleCount != null  and singleCount != ''"> and singleCount = #{singleCount}</if>
+            <if test="multiplyCount != null  and multiplyCount != ''"> and multiplyCount = #{multiplyCount}</if>
+            <if test="tfCount != null  and tfCount != ''"> and tfCount = #{tfCount}</if>
+            <if test="sSimple != null  and sSimple != ''"> and sSimple = #{sSimple}</if>
+            <if test="sAverage != null  and sAverage != ''"> and sAverage = #{sAverage}</if>
+            <if test="sHarder != null  and sHarder != ''"> and sHarder = #{sHarder}</if>
+            <if test="mSimple != null  and mSimple != ''"> and mSimple = #{mSimple}</if>
+            <if test="mAverage != null  and mAverage != ''"> and mAverage = #{mAverage}</if>
+            <if test="mHarder != null  and mHarder != ''"> and mHarder = #{mHarder}</if>
+            <if test="tSimple != null  and tSimple != ''"> and tSimple = #{tSimple}</if>
+            <if test="tAverage != null  and tAverage != ''"> and tAverage = #{tAverage}</if>
+            <if test="tHarder != null  and tHarder != ''"> and tHarder = #{tHarder}</if>
+        </where>
+    </select>
+
+    <select id="selectHardControllerById" parameterType="Long" resultMap="HardControllerResult">
+        <include refid="selectHardControllerVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHardController" parameterType="HardController" useGeneratedKeys="true" keyProperty="id">
+        insert into hard_controller
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hardName != null">hard_name,</if>
+            <if test="singleCount != null">singleCount,</if>
+            <if test="multiplyCount != null">multiplyCount,</if>
+            <if test="tfCount != null">tfCount,</if>
+            <if test="sSimple != null">sSimple,</if>
+            <if test="sAverage != null">sAverage,</if>
+            <if test="sHarder != null">sHarder,</if>
+            <if test="mSimple != null">mSimple,</if>
+            <if test="mAverage != null">mAverage,</if>
+            <if test="mHarder != null">mHarder,</if>
+            <if test="tSimple != null">tSimple,</if>
+            <if test="tAverage != null">tAverage,</if>
+            <if test="tHarder != null">tHarder,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hardName != null">#{hardName},</if>
+            <if test="singleCount != null">#{singleCount},</if>
+            <if test="multiplyCount != null">#{multiplyCount},</if>
+            <if test="tfCount != null">#{tfCount},</if>
+            <if test="sSimple != null">#{sSimple},</if>
+            <if test="sAverage != null">#{sAverage},</if>
+            <if test="sHarder != null">#{sHarder},</if>
+            <if test="mSimple != null">#{mSimple},</if>
+            <if test="mAverage != null">#{mAverage},</if>
+            <if test="mHarder != null">#{mHarder},</if>
+            <if test="tSimple != null">#{tSimple},</if>
+            <if test="tAverage != null">#{tAverage},</if>
+            <if test="tHarder != null">#{tHarder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHardController" parameterType="HardController">
+        update hard_controller
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hardName != null">hard_name = #{hardName},</if>
+            <if test="singleCount != null">singleCount = #{singleCount},</if>
+            <if test="multiplyCount != null">multiplyCount = #{multiplyCount},</if>
+            <if test="tfCount != null">tfCount = #{tfCount},</if>
+            <if test="sSimple != null">sSimple = #{sSimple},</if>
+            <if test="sAverage != null">sAverage = #{sAverage},</if>
+            <if test="sHarder != null">sHarder = #{sHarder},</if>
+            <if test="mSimple != null">mSimple = #{mSimple},</if>
+            <if test="mAverage != null">mAverage = #{mAverage},</if>
+            <if test="mHarder != null">mHarder = #{mHarder},</if>
+            <if test="tSimple != null">tSimple = #{tSimple},</if>
+            <if test="tAverage != null">tAverage = #{tAverage},</if>
+            <if test="tHarder != null">tHarder = #{tHarder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHardControllerById" parameterType="Long">
+        delete from hard_controller where id = #{id}
+    </delete>
+
+    <delete id="deleteHardControllerByIds" parameterType="String">
+        delete from hard_controller where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

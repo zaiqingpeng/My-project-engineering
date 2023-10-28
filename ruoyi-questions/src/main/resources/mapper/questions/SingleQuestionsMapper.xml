@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.questions.mapper.SingleQuestionsMapper">
+
+    <resultMap type="SingleQuestions" id="SingleQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="question"    column="question"    />
+        <result property="optionA"    column="option_A"    />
+        <result property="optionB"    column="option_B"    />
+        <result property="optionC"    column="option_C"    />
+        <result property="optionD"    column="option_D"    />
+        <result property="answer"    column="answer"    />
+        <result property="level"    column="level"    />
+    </resultMap>
+
+    <sql id="selectSingleQuestionsVo">
+        select id, question, option_A, option_B, option_C, option_D, answer, level from single_questions
+    </sql>
+
+    <select id="selectSingleQuestionsList" parameterType="SingleQuestions" resultMap="SingleQuestionsResult">
+        <include refid="selectSingleQuestionsVo"/>
+        <where>
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+        </where>
+    </select>
+
+    <select id="selectSingleQuestionsById" parameterType="Integer" resultMap="SingleQuestionsResult">
+        <include refid="selectSingleQuestionsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSingleQuestions" parameterType="SingleQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into single_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="question != null">question,</if>
+            <if test="optionA != null">option_A,</if>
+            <if test="optionB != null">option_B,</if>
+            <if test="optionC != null">option_C,</if>
+            <if test="optionD != null">option_D,</if>
+            <if test="answer != null">answer,</if>
+            <if test="level != null">level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="question != null">#{question},</if>
+            <if test="optionA != null">#{optionA},</if>
+            <if test="optionB != null">#{optionB},</if>
+            <if test="optionC != null">#{optionC},</if>
+            <if test="optionD != null">#{optionD},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="level != null">#{level},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSingleQuestions" parameterType="SingleQuestions">
+        update single_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="question != null">question = #{question},</if>
+            <if test="optionA != null">option_A = #{optionA},</if>
+            <if test="optionB != null">option_B = #{optionB},</if>
+            <if test="optionC != null">option_C = #{optionC},</if>
+            <if test="optionD != null">option_D = #{optionD},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="level != null">level = #{level},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSingleQuestionsById" parameterType="Integer">
+        delete from single_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteSingleQuestionsByIds" parameterType="String">
+        delete from single_questions where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

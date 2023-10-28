@@ -1,0 +1,3 @@
+Application Version: ${ruoyi.version}
+Spring Boot Version: ${spring-boot.version}
+***********************铝电解槽实训平台题库管理系统启动中…………*****************************
